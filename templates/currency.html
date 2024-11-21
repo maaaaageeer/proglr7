@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Наблюдение за курсом валют</title>
+</head>
+<body>
+    <h1>Наблюдение за курсом валют</h1>
+    <form>
+        <label for="observer_name">Введите имя валюты: </label>
+        <input type="text" id="observer_name" required>
+        <button type="button" onclick="connect()"> Наблюдать</button>
+    </form>
+    <form>
+        <label id = "currency"> Курс </label>
+    </form>
+
+    <script>
+        let socket;
+        let observer_name;
+        const label = document.getElementById("currency");
+        
+        function connect() {
+            observer_name = document.getElementById("observer_name").value;
+            if (observer_name) {
+                socket = new WebSocket(`ws://localhost:8000/ws/${observer_name}`);
+                socket.onmessage = function(event) {
+                    label.innerHTML = event.data;
+                }
+            }
+            
+        }
+        
+
+
+    </script>
+</body>
+</html>
